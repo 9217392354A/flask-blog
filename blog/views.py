@@ -18,7 +18,7 @@ def admin():
         return redirect(url_for('setup'))
     return render_template('blog/admin.html')
     
-@app.route('/setup')
+@app.route('/setup', methods=('GET','POST'))
 def setup():
     error = ''
     form = SetupForm()
@@ -39,8 +39,8 @@ def setup():
                 form.name.data,
                 author.id
                 )
-        db.session.add(blog)
-        db.session.flush()
+            db.session.add(blog)
+            db.session.flush()
         
         else:
             db.session.rollback()
