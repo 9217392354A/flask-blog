@@ -20,6 +20,39 @@ def admin():
     
 @app.route('/setup')
 def setup():
+    error = ''
     form = SetupForm()
-    
-    return render_template('blog/setup.html', form=form)
+    if form.validate_on_submit():
+        author = Author(
+            form.fullname.data,
+            form.email.data,
+            form.username.data,
+            form.password.data,
+            True)
+            
+        db.session.add(author)
+        db.session.flush() #simulated commit
+        
+        #check if author was created successfully ie has id
+        if author.id:
+            blog = Blog(
+                form.name.data,
+                author.id
+                )
+        db.session.add(blog)
+        db.session.flush()
+        
+        else:
+            db.session.rollback()
+            error = 'Error Creating User'
+            
+        if author.id and blog.id:
+            db.session.commit()
+            flash("Blog created")
+            return redirect(url_for('admin'))
+        else:
+            db.session.rollback()
+            error = 'Error Creating Blog'
+        
+        
+    return render_template('blog/setup.html', form=form, error=error)
