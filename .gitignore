@@ -1,0 +1,9 @@
+# Virtualenv
+.Python
+bin
+lib
+include
+./p3env
+
+#mac os junk
+.DS_Store
