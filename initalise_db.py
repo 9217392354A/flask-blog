@@ -2,7 +2,5 @@
 # remember to start sql server and inisalise blog db
 
 from flask_blog import db
-
-from author.models import *
+db.session.commit()
 db.create_all()
-
