@@ -1,3 +1,4 @@
+#models for author
 from flask_blog import db
 
 class Author(db.Model):
